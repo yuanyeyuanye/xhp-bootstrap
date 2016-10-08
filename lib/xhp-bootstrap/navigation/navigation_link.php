@@ -17,8 +17,6 @@ class :bootstrap:navigation:link extends :bootstrap:base {
     Stringish href @required,
     bool active = false;
 
-  children (pcdata);
-
   category %bootstrap:navigation:item;
 
   protected function render(): XHPRoot {
