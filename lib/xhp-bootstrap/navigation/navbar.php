@@ -13,18 +13,16 @@ class :bootstrap:navbar extends :bootstrap:base {
 
   attribute
     :nav,
-    enum { 'default', 'inverse' } theme = 'default',
+    enum {'default', 'inverse'} theme = 'default',
     enum {
       'default',
       'fixed-top',
       'static-top',
       'fixed-bottom'
-    } position = 'default';
+    } position = 'default',
+    string collapsableClass = 'bootstrap-nav-collapsable-container';
 
-  children (
-    :bootstrap:navbar:brand?,
-    %bootstrap:navigation:item*
-  );
+  children (:bootstrap:navbar:brand?, %bootstrap:navigation:item*);
 
   protected function render(): XHPRoot {
     $theme = $this->:theme;
@@ -46,11 +44,27 @@ class :bootstrap:navbar extends :bootstrap:base {
         </ul>;
     }
 
+    $toggleBtn =
+      <button
+        type="button"
+        class="navbar-toggle collapsed"
+        data-toggle="collapse"
+        data-target={'.'.$this->:collapsableClass}
+        aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>;
+
     $ret =
       <nav class="navbar" role="navigation">
         <bootstrap:container>
+          {$toggleBtn}
           {$header}
-          {$links}
+          <div class={"collapse navbar-collapse ".$this->:collapsableClass}>
+            {$links}
+          </div>
         </bootstrap:container>
       </nav>;
 
@@ -66,9 +80,7 @@ class :bootstrap:navbar extends :bootstrap:base {
     return
       <bootstrap:navbar>
         <bootstrap:navbar:brand href="#">Brand</bootstrap:navbar:brand>
-        <bootstrap:navigation:link href="#">
-          Link
-        </bootstrap:navigation:link>
+        <bootstrap:navigation:link href="#">Link</bootstrap:navigation:link>
         <bootstrap:navigation:link href="#" active={true}>
           Active Link
         </bootstrap:navigation:link>
@@ -77,23 +89,14 @@ class :bootstrap:navbar extends :bootstrap:base {
         </bootstrap:navigation:link>
         <bootstrap:navigation:dropdown>
           <a href="#">
-            Dropdown
-            <bootstrap:caret />
+            Dropdown <bootstrap:caret />
           </a>
           <bootstrap:dropdown:menu>
-            <bootstrap:dropdown:item href="#">
-              Foo
-            </bootstrap:dropdown:item>
-            <bootstrap:dropdown:item href="#">
-              Bar
-            </bootstrap:dropdown:item>
+            <bootstrap:dropdown:item href="#">Foo</bootstrap:dropdown:item>
+            <bootstrap:dropdown:item href="#">Bar</bootstrap:dropdown:item>
             <bootstrap:dropdown:divider />
-            <bootstrap:dropdown:item href="#">
-              Herp
-            </bootstrap:dropdown:item>
-            <bootstrap:dropdown:item href="#">
-              Derp
-            </bootstrap:dropdown:item>
+            <bootstrap:dropdown:item href="#">Herp</bootstrap:dropdown:item>
+            <bootstrap:dropdown:item href="#">Derp</bootstrap:dropdown:item>
           </bootstrap:dropdown:menu>
         </bootstrap:navigation:dropdown>
       </bootstrap:navbar>;
@@ -104,9 +107,7 @@ class :bootstrap:navbar extends :bootstrap:base {
     return
       <bootstrap:navbar theme="inverse">
         <bootstrap:navbar:brand href="#">Brand</bootstrap:navbar:brand>
-        <bootstrap:navigation:link href="#">
-          Link
-        </bootstrap:navigation:link>
+        <bootstrap:navigation:link href="#">Link</bootstrap:navigation:link>
         <bootstrap:navigation:link href="#" active={true}>
           Active Link
         </bootstrap:navigation:link>
