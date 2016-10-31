@@ -20,7 +20,7 @@ final class :bootstrap:dropdown:item extends :bootstrap:base {
 
   protected function render(): XHPRoot {
     $link =
-      <a role="menuitem" tabindex="-1">
+      <a role="menuitem" tabindex="-1" href={$this->:href}>
         {$this->getChildren()}
       </a>;
 
